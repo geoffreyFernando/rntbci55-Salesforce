@@ -1,0 +1,246 @@
+<template>
+
+<lightning-accordion allow-multiple-sections-open>
+
+	<lightning-accordion-section name="A" label="Accordion Title A">
+		<div class="slds-grid ">
+			<!-- searching function -->
+				<lightning-input class="searchbar" type="input" variant="standard"
+					placeholder="search " value={name} >
+				</lightning-input>
+		</div>
+		<div>
+			<lightning-datatable hide-checkbox-column="true" columns={columns1} data={accounts}
+			onrowaction={onRowActionHandler} key-field="Id"></lightning-datatable>
+		</div>
+
+		<lightning-card>
+			<div class="slds-p-around_small">
+				<c-child-custom-event-component mydata={childToParent} onclosemodel={handleMessage}></c-child-custom-event-component>
+			</div>
+
+			<template if:true={messge}>
+				<b style="margin-left:10px; display:flex">Welcome Vinoth</b>
+			</template>
+			<!-- ++++ -->
+
+			<lightning-input class="slds-p-around_medium" label="I'm Checkbox" type="checkbox" onchange={selectionHandler}></lightning-input>
+			
+			<template lwc:if={displaymssg2}>
+				After clicking Checkbox 
+			</template>
+
+			<div class="slds-p-around_small">
+				<b> Calling Method => </b> {getMessage}
+			</div>
+
+			<!-- Deleting from LWC -->
+
+			<div style="width:500px">
+				<lightning-input placeholder="type recordID" class="inp1"></lightning-input>
+				<lightning-button label="delete" onclick={onDelete}></lightning-button>
+			</div>
+		</lightning-card>
+
+
+		<div class="card-container">
+			<article class="slds-card" style="width:500px; Margin-top:10px; display:flex">
+				<div class="slds-tabs_default slds-tabs_small slds-p-around_small">
+					<lightning-record-form
+					object-api-name="Account"
+					fields={fields}
+					onsuccess={handleSuccess}>
+					</lightning-record-form>
+				</div>
+			</article>
+
+			<article class="slds-card article3" style="width:500px; display:flex">
+				<div class="slds-tabs_default slds-tabs_small slds-p-around_small parentArticle1">
+					<template for:each={accounts} for:item="acc">
+					<lightning-layout key={acc.Id}>
+						<lightning-layout-item>
+							<p class="slds-var-p-around_small">
+								<a href="#">{acc.Name}</a>
+							</p>
+						</lightning-layout-item>
+							<lightning-layout-item class="slds-col childArticle1 slds-align_absolute-center">
+								<lightning-button label="Delete" data-id={acc.Id} onclick={deleteAccountRecord} icon-name="action:delete"></lightning-button>
+							</lightning-layout-item>
+					</lightning-layout>
+					</template>
+				</div>
+			</article>
+		</div>
+	<!-- Understanding css -->
+    <!-- <div class="card-container">
+        <lightning-card title="Card 1">
+            <p>Content of Card 1</p>
+        </lightning-card>
+        <lightning-card title="Card 2">
+            <p>Content of Card 2</p>
+        </lightning-card>
+        <lightning-card title="Card 3">
+            <p>Content of Card 3</p>
+        </lightning-card>
+    </div> -->
+
+	<div class="slds-input-has-icon slds-input-has-icon_right">
+		<lightning-icon icon-name="utility:down" size="xx-small" style="margin-top: 5px;" class="slds-input__icon slds-input__icon_right"></lightning-icon>
+		<lightning-input label="Select Item" placeholder="Choose..." type="text" onclick={showPicklist}></lightning-input>
+	</div>
+
+	<template if:true={picklistValue}>
+		<div id="listbox-id-2" class="slds-dropdown slds-dropdown_fluid" role="listbox">
+			<ul class="slds-listbox slds-listbox_vertical" role="presentation">
+				
+			<template for:each={industry} for:item="ind">
+					<li class="slds-listbox__item" role="presentation" key={ind.label}>
+						<lightning-input type="checkbox" value={ind.value} label={ind.label} checked={ind.checked} onchange={clickedPicklist}></lightning-input>
+					</li>
+					<!-- <div key={ind.label}>
+						<lightning-input class="slds-var-p-around_small" type="checkbox" value={ind.value} label={ind.label} checked={ind.checked} onchange={clickedPicklist}></lightning-input>
+					</div> -->
+				</template>
+			</ul>
+		</div>
+	</template>
+
+	<article class="slds-card" style="height: 400px;">
+		<div class="slds-var-p-around_small" style="width: 600px; display: flex; justify-content: space-between; align-items: center;">
+			<lightning-input type="text" style=" width: 300px;" class="c-contact-list" placeholder="Search Contact"></lightning-input>
+			<lightning-button variant="brand" style="margin-right: 30%;  margin-top: 18px;" label="Search" onclick={searchContact}></lightning-button>
+		</div>
+		<!-- <div >
+		</div> -->
+
+		<template lwc:if={contactList}>
+			<div key={con.Id} for:each={contactList} for:item="con">
+				<p>Id :{con.Id}</p>
+				<p>Id :{con.Name}</p>
+				<p>Email :{con.Email}</p>
+			</div>
+		</template>
+	</article>
+
+	<!-- getSObjectValue -> Instead of hardcode {contact.email}, {contact.Name} we can use this way -->
+	<lightning-card title="ApexStaticSchema" icon-name="custom:custom63">
+        <template if:true={gettingContact}>
+            <div class="slds-m-around_medium">
+                <p>{nameSObjectValue}</p>
+                <p>{emailSObjectValue}</p>
+            </div>
+        </template>
+    </lightning-card>
+
+	</lightning-accordion-section>
+<!-- Sorting  -->
+
+
+	<lightning-accordion-section name="B" label="Accordion Title B">
+
+		<lightning-card title="Data Sorting in Lightning Datatable in LWC" icon-name="standard:contact" >
+			<br/>
+			<div style="width: auto;">
+				<template if:true={data}>
+					<lightning-datatable data={data}
+										columns={columns}
+										key-field="id"
+										sorted-by={sortBy}
+										sorted-direction={sortDirection}
+										onsort={doSorting}
+										hide-checkbox-column="true"></lightning-datatable>
+				</template>
+			</div>
+
+			<!-- GetFieldValue -->
+			Account Name : {accountName}
+
+
+			<lightning-input label="Percentage" placehoder="type the color percentage..." onchange={handleChangeColor}></lightning-input>
+			<!-- <div class="slds-var-p-around_small" style={style}>
+			</div> -->
+
+			<lightning-button label='button' variant='destructive' class="custom-brand-button"></lightning-button>
+			<p class="textColor">hi</p>
+
+		<div class="custom-combobox">
+			<lightning-combobox dropdown-alignment="auto" data-id="nameCB" class="myCLSS" placeholder='Select Market' options={industryOptions}></lightning-combobox>
+		</div>
+
+		<div class="slds-var-p-around_small"></div>
+		<div class="slds-var-p-around_small"></div>
+		<div class="slds-var-p-around_small"></div>
+		<div class="slds-var-p-around_small"></div>
+
+		<lightning-accordion allow-multiple-sections-open>
+
+			<lightning-accordion-section name="A" label="Accordion Title A">
+
+					<p>This is the content area for section A.</p>
+				</lightning-accordion-section>
+
+				<lightning-accordion-section name="B" label="Accordion Title B">
+					<p>This is the content area for section B.</p>
+				</lightning-accordion-section>
+
+				<lightning-accordion-section name="C" label="Accordion Title C">
+					<p>This is the content area for section C.</p>
+			</lightning-accordion-section>
+
+		</lightning-accordion>
+
+		</lightning-card>
+
+	</lightning-accordion-section>
+
+
+		<lightning-accordion-section class="my-animation" name="C" label="Accordion Title C">
+			
+		<div>
+			<lightning-datatable hide-checkbox-column="true" columns={columns1} data={accountsData}
+			key-field="Id"></lightning-datatable>
+		</div>
+
+			<!-- <template> -->
+				<lightning-layout-item class="slds-align_absolute-center">
+					<lightning-button variant='base' class="slds-p-around_xx-small" label='First' onclick={handleFirst}></lightning-button>
+					<lightning-button variant='base' class="slds-p-around_xx-small" label='<<' onclick={handlePrevious}></lightning-button>
+					<!-- <template variant='base' class="slds-p-around_xx-small" for:each={totalPages} for:item="num" key={num}>
+						{num}
+					</template> -->
+					<lightning-button variant='base' class="slds-p-around_xx-small" label='>>' onclick={handleNext}></lightning-button>
+					<lightning-button variant='base' class="slds-p-around_xx-small" label='Last' onclick={handleLast}></lightning-button>
+				</lightning-layout-item>
+			<!-- </template> -->
+		</lightning-accordion-section>
+
+		<div class="slds-var-p-around_small">
+			{greeting.fname} <br>
+			{arrayOfValues}
+
+		</div>
+
+		<div class="slds-var-p-around_small">
+			<lightning-button class="slds-var-p-around_small" label='Click Greeting' variant='brand' onclick= {handleGreeting}></lightning-button>
+			<lightning-button class="slds-var-p-around_small" label='Click Array' variant='brand' onclick={handleArrayOfValues}></lightning-button>
+		</div>
+
+		<div class="slds-var-p-around_small">
+			<lightning-input class="metadatavalue" label="Search Metadata" placehoder="Search Metadata..."></lightning-input>
+			<lightning-button  variant='brand' label='Metadata' onclick={handleMetadata}></lightning-button>
+			
+			<template if:true={metadataResult}>
+					<lightning-formatted-text class="slds-var-p-around_small" value={metadataResult}></lightning-formatted-text>
+ 			</template>
+			<template if:true={errorMessage}>
+				 <lightning-formatted-text class="slds-var-p-around_small" value={errorMessage}></lightning-formatted-text>
+			</template>
+		</div>
+			<lightning-button  variant='brand' label='rotate' onclick={handleRotate}></lightning-button>
+			<div class="myDIV" style="height : 50px; width: 100px; background-color:orange"></div>
+			  <div class="bar"></div>
+
+	<lightning-input onkeyup={inp1}></lightning-input>
+	{inp1Value}
+	</lightning-accordion>	
+</template>

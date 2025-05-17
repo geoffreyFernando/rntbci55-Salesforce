@@ -1,0 +1,92 @@
+@import 'c/cssLibrary';
+
+.lightning-studio{
+	color : blue;
+}
+body{
+position: absolute;
+}
+.parentArticle1 {
+    display: flex;
+    flex-direction: column; /* Ensures vertical alignment */
+}
+
+.childArticle1 {
+    display: flex;
+    align-items: flex-end; /* Align items in the center */
+    /* margin-right: 10px; */
+}
+.article3{
+    position: relative;
+}
+
+.card-container {
+    display: flex;
+    gap: 1rem; /* Optional: adds space between the cards */
+}
+.slds-dropdown {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    border: 1px solid #dddbda;
+    border-radius: 0.25rem;
+    background-color: white;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+}
+
+.slds-listbox_vertical {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.slds-listbox_vertical li {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.slds-listbox_vertical li:hover {
+    background-color: #f3f2f2;
+}
+
+.custom-brand-button {
+    /* --slds-c-button-destructive-color-background: rgb(2, 216, 254);  
+    --slds-c-button-destructive-color-background-hover: rgb(6, 0, 128);    */
+
+    --slds-c-button-destructive-color-background: var(--lwc-colorBorderWarning);
+
+    font-weight: var(--lwc-fontWeightBold);
+}
+.custom-combobox{
+    height: var(--lwc-sizeMedium);
+}
+.slds-dropdown_fluid {
+    height: 40px;
+}
+
+.myCLSS{
+    --sds-c-input-radius-border: var(--lwc-borderRadiusLarge);
+    --sds-c-input-color-border:red;
+    --sds-c-input-text-color:red;
+}
+
+/* :host{
+    --sds-c-input-radius-border: var(--lwc-borderRadiusCircle);
+    --slds-c-input-color-border:red;
+    --slds-c-input-text-color-hover:red;
+} */
+
+lightning-input{
+    width: 200px;
+}
+lightning-combobox{
+    width: 200px;
+}
+.bar {
+  background-color: hotpink;
+  height: 20px;
+  width: 0px;
+}
+.bar.bar-grow {
+  width: 100%;
+  transition: width 1s linear;
+}

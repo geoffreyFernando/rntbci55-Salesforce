@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title="Case Details">
+        <lightning-button label="Export" slot="actions" onclick={handleExport}></lightning-button>
+
+        <div class="slds-grid slds-gutters">
+            <div style="background:yellow" class="slds-col slds-size_1-of-3">
+                <span>1</span>
+            </div>
+            <div style="background:blue" class="slds-col slds-size_1-of-3">
+                <span>2</span>
+            </div>
+        </div>
+
+        
+        <div class="slds-col slds-size_1-of-3 slds-m-top_medium slds-m-bottom_medium" style="display: flex;justify-content: flex-end; background:yellow">
+            
+            <dl class="slds-dl_inline slds-text-align_right" style="padding-right: 35px;">
+                <dt class="slds-dl_inline__label slds-text-color_weak slds-truncate" title="First Label">
+                    <b>Case Deadline:</b>
+                </dt>
+                <dd>2025-02-28</dd> <!-- This would be the value associated with the "Case Deadline" -->
+            </dl>
+
+        </div>
+
+        <table id='caselist' class="slds-table slds-table_bordered slds-table_col-bordered slds-max-medium-table_stacked  slds-m-top_medium" role="grid">
+        <thead>
+            <tr class="slds-line-height_reset">
+                <th class="slds-is-resizable slds-text-title_caps tHeadStyle slds-cell-shrink sortable sortable-base" style='cursor: pointer;' data-id='caseNum' scope="col" onclick={sortTable}>                    
+                    <span class="slds-truncate" title="">Case Number</span>                    
+                </th>
+                <th class="slds-is-resizable slds-text-title_caps tHeadStyle slds-cell-shrink sortable sortable-base" style='cursor: pointer;'  data-id='system' scope="col" onclick={sortTable}>                    
+                    <span title="">System Name</span>                      
+                </th>
+                <th class="slds-is-resizable slds-text-title_caps tHeadStyle slds-cell-shrink" scope="col">                    
+                    <span title="">Request Type</span>                      
+                </th>
+            </tr>
+        </thead>
+        </table>
+
+        <div class="slds-var-p-around_small slds-grid slds-gutters">
+            <div class="slds-col slds-size_2-of-12">
+                <lightning-button label="Click Me for Array" variant="Brand" onclick={clickForArray}></lightning-button>
+            </div>
+            <div class="slds-col slds-size_2-of-12">
+                <lightning-button label="Click Me for Email" variant="Brand" onclick={handleEmailClick}></lightning-button>
+            </div>
+            <div class="slds-col slds-size_2-of-12">
+                <button class="my-button" onclick={handleCssClick}>Click Me for static resource CSS</button>
+            </div>
+        </div>
+
+        
+    </lightning-card>
+    
+</template>

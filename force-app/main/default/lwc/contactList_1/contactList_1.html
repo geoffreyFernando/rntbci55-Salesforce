@@ -1,0 +1,34 @@
+<template>
+    
+    <lightning-card title="Contact List" icon-name="standard:contact">
+        
+        <div class="slds-m-around_medium">
+            <lightning-input placeholder="Search Contacts.." value={name1} onblur={changeHandler}> </lightning-input>
+        </div>
+            <div class="slds-m-around_medium">
+            <template if:true={contacts}>
+                <lightning-layout>
+                    <template for:each={contacts} for:item="contact">
+                        <lightning-layout-item key={contact.Id}>
+                            <h3>{contact.Name}</h3>
+                        </lightning-layout-item>
+                    </template >
+                </lightning-layout>
+            </template>
+            <template if:true={error}>
+                <p class="slds-text-color_error">Error loading contacts: {error.body.message}</p>
+            </template>
+        </div>
+
+    </lightning-card>
+
+        <lightning-card title="Account Details">
+            <template if:true={account}>
+                <p>Name: {accountName}</p>
+                <p>Industry: {accountIndustry}</p>
+            </template>
+            <template if:true={error}>
+                <p>Error: {error.body.message}</p>
+            </template>
+        </lightning-card>
+</template>

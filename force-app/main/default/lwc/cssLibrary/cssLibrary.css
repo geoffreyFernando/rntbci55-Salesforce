@@ -1,0 +1,22 @@
+body{
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.paraClass{
+	background-color: antiquewhite;
+}
+
+h1{
+	color: red;
+}
+
+lightning-datatable{
+	color: blue;
+}
+lightning-accordion-section:nth-child(odd) { 
+    background-color: rgb(255, 231, 231) ;
+}
+
+lightning-accordion-section:nth-child(even) { 
+    background-color: antiquewhite ;
+}
