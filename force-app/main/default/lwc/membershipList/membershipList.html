@@ -214,33 +214,35 @@
 			<!-- </template> -->
 		</lightning-accordion-section>
 
-		<div class="slds-var-p-around_small">
-			{greeting.fname} <br>
-			{arrayOfValues}
+		<lightning-accordion-section class="my-animation" label="Accordion Title C">
+			<div class="slds-var-p-around_small">
+				{greeting.fname} <br>
+				{arrayOfValues}
 
-		</div>
+			</div>
 
-		<div class="slds-var-p-around_small">
-			<lightning-button class="slds-var-p-around_small" label='Click Greeting' variant='brand' onclick= {handleGreeting}></lightning-button>
-			<lightning-button class="slds-var-p-around_small" label='Click Array' variant='brand' onclick={handleArrayOfValues}></lightning-button>
-		</div>
+			<div class="slds-var-p-around_small">
+				<lightning-button class="slds-var-p-around_small" label='Click Greeting' variant='brand' onclick= {handleGreeting}></lightning-button>
+				<lightning-button class="slds-var-p-around_small" label='Click Array' variant='brand' onclick={handleArrayOfValues}></lightning-button>
+			</div>
 
-		<div class="slds-var-p-around_small">
-			<lightning-input class="metadatavalue" label="Search Metadata" placehoder="Search Metadata..."></lightning-input>
-			<lightning-button  variant='brand' label='Metadata' onclick={handleMetadata}></lightning-button>
-			
-			<template if:true={metadataResult}>
-					<lightning-formatted-text class="slds-var-p-around_small" value={metadataResult}></lightning-formatted-text>
- 			</template>
-			<template if:true={errorMessage}>
-				 <lightning-formatted-text class="slds-var-p-around_small" value={errorMessage}></lightning-formatted-text>
-			</template>
-		</div>
-			<lightning-button  variant='brand' label='rotate' onclick={handleRotate}></lightning-button>
-			<div class="myDIV" style="height : 50px; width: 100px; background-color:orange"></div>
-			  <div class="bar"></div>
+			<div class="slds-var-p-around_small">
+				<lightning-input class="metadatavalue" label="Search Metadata" placehoder="Search Metadata..."></lightning-input>
+				<lightning-button  variant='brand' label='Metadata' onclick={handleMetadata}></lightning-button>
+				
+				<template if:true={metadataResult}>
+						<lightning-formatted-text class="slds-var-p-around_small" value={metadataResult}></lightning-formatted-text>
+				</template>
+				<template if:true={errorMessage}>
+					<lightning-formatted-text class="slds-var-p-around_small" value={errorMessage}></lightning-formatted-text>
+				</template>
+			</div>
+				<lightning-button  variant='brand' label='rotate' onclick={handleRotate}></lightning-button>
+				<div class="myDIV" style="height : 50px; width: 100px; background-color:orange"></div>
+				<div class="bar"></div>
 
-	<lightning-input onkeyup={inp1}></lightning-input>
-	{inp1Value}
+		<lightning-input onkeyup={inp1}></lightning-input>
+		{inp1Value}
+	</lightning-accordion-section>
 	</lightning-accordion>	
 </template>
