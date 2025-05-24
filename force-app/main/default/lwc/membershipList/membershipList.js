@@ -1,11 +1,11 @@
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, wire, track, api } from 'lwc';
 import fetchaccount from '@salesforce/apex/membership_getDetails.membership_getDetails'
 import ACCOUNT_NAME from '@salesforce/schema/Account.Name';
 import ACCOUNT_PHONE from '@salesforce/schema/Account.Phone';
 
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 
-import { deleteRecord, getRecord, getFieldValue } from 'lightning/uiRecordApi';
+import { deleteRecord, getRecord, getFieldValue, createRecord } from 'lightning/uiRecordApi';
 import {refreshApex} from '@salesforce/apex'
 
 import retrieveAccountObjectData from '@salesforce/apex/retrieveAccountObjectData.retrieveAccount'
@@ -29,6 +29,17 @@ import getContacts from '@salesforce/apex/LWCDataTableSortingExample.getContacts
 import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import ACCOUNT_OBJECT from "@salesforce/schema/Account";
 
+import templateOne from "./templateOne.html"
+import templateTwo from "./membershipList.html"
+
+import CONTACT_LastName_FIELD from '@salesforce/schema/Contact.LastName';
+import CONTACT_FirstName_FIELD from '@salesforce/schema/Contact.FirstName';
+import CONTACT_Email_FIELD from '@salesforce/schema/Contact.Email';
+import Name from '@salesforce/schema/Contact.Name';
+import Id from '@salesforce/schema/Contact.Id';
+import CONTACT_OBJECT from '@salesforce/schema/Contact';
+
+import {updateRecord} from "lightning/uiRecordApi"
 const FIELDS = [
     'Contact.Name',
     'Contact.Email',
@@ -40,6 +51,7 @@ const columns = [ { label: 'FirstName', fieldName: 'FirstName', sortable: "true"
                   { label: 'LastName', fieldName: 'LastName'},
                   { label: 'Phone', fieldName: 'Phone', type: 'phone'},
                   { label: 'Email', fieldName: 'Email', type: 'email' },];
+
 
 export default class MembershipList extends LightningElement {
 
@@ -478,5 +490,107 @@ accInd({ data, error }) {
     }
     connectedCallback(){
         this.getCon();
+    }
+
+    renderFlag = false;
+    renderFunction(){
+        this.renderFlag = !this.renderFlag;
+    }
+    render(){
+        return this.renderFlag? templateOne :templateTwo;
+    }
+    objectApiName = CONTACT_OBJECT
+    fields = [CONTACT_Email_FIELD, CONTACT_FirstName_FIELD, CONTACT_LastName_FIELD];
+    handleSuccess(event) {}
+
+    @api greetingS
+
+    // LDS
+
+    updateAccountRecord() {
+        const fields = {}
+
+            fields[Id.fieldApiName]= '003NS00000PKSPxYAP', // Replace with a valid record ID
+            fields[CONTACT_FirstName_FIELD.fieldApiName]= 'New Account Name'
+        // const fields = {
+        //     [Id.fieldApiName]: '003NS00000PKSPxYAP', // Replace with a valid record ID
+        //     [CONTACT_FirstName_FIELD.fieldApiName]: 'New Account Name'
+        // };
+        const recordInput = {fields };
+
+        updateRecord(recordInput)
+            .then(() => {
+                // Success toast or message
+                console.log('Success: Record updated');
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error updating record:', error);
+            });
+    }
+    
+    @wire(getRecord, {recordId : '003NS00000PKSPxYAP', fields: [CONTACT_Email_FIELD, CONTACT_FirstName_FIELD]})
+    getRec(data){
+        console.log('getRecord: ', data);
+    }
+    createAccountRecord() {
+    const fields = {}
+
+        // fields[Id.fieldApiName]= '003NS00000PKSPxYAP' // Replace with a valid record ID
+        fields[Name.fieldApiName]= 'New Account Name 1'
+    // const fields = {
+    //     [Id.fieldApiName]: '003NS00000PKSPxYAP', // Replace with a valid record ID
+    //     [CONTACT_FirstName_FIELD.fieldApiName]: 'New Account Name'
+    // };
+    const recordInput = {
+        apiName: ACCOUNT_OBJECT.objectApiName,
+        fields };
+
+    createRecord(recordInput)
+        .then(() => {
+            // Success toast or message
+            console.log('Success: Record created');
+        })
+        .catch(error => {
+            // Handle error
+            console.error('Error creating record:', error);
+        });
+    }
+    
+    @wire(getRecord, {recordId : '003NS00000PKSPxYAP', fields: [CONTACT_Email_FIELD, CONTACT_FirstName_FIELD]})
+    getRec(data){
+        console.log('getRecord: ', data);
+    }
+    connectedCallback(){
+        this.updateAccountRecord()
+        // this.createAccountRecord()
+
+        const endPoint = 'https://rntbci55-dev-ed.develop.lightning.force.com/services/data/v60.0/sObjects/Account/query?q=SELECT+Id+Name+FROM+Account'
+        fetch(endPoint,
+            {
+                method :'GET',
+                headers :{
+                    'Authorization':'00DNS000009u8vN!AQEAQI2HyY.szXgM6BgIaMy_PTnVW5Xav5zxE6BF5bl86DdFHQOgcKSCwwNAYKHelstM6LTWsuQL7oUYtRpLxqrIuap9Mfr4'
+                }    
+            }
+        )
+        .then((resp) => resp.json())
+        .then((resp) => console.log('from API resposne: ', resp));
+    }
+    
+    localName;
+    localGreeting;
+    chSlot(){
+
+    this.localName = 'Switzerland';
+    this.localGreeting = 'Swiss';
+    }
+
+    connectedCallback(){
+
+    }
+    async componentLoad(){
+        // const comp = await import('./templateOne.html');
+        this.template.getElementByClass('.containerComponent').appendChild(comp);
     }
 }

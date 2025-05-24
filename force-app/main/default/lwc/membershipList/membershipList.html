@@ -214,7 +214,7 @@
 			<!-- </template> -->
 		</lightning-accordion-section>
 
-		<lightning-accordion-section class="my-animation" label="Accordion Title C">
+		<lightning-accordion-section class="my-animation" label="Accordion Title D">
 			<div class="slds-var-p-around_small">
 				{greeting.fname} <br>
 				{arrayOfValues}
@@ -241,8 +241,24 @@
 				<div class="myDIV" style="height : 50px; width: 100px; background-color:orange"></div>
 				<div class="bar"></div>
 
-		<lightning-input onkeyup={inp1}></lightning-input>
-		{inp1Value}
-	</lightning-accordion-section>
+			<lightning-input onkeyup={inp1}></lightning-input>
+			{inp1Value}
+		</lightning-accordion-section>
+
+		<lightning-button label="Render" variant="brand" onclick={renderFunction}></lightning-button>
+		<lightning-record-form object-api-name={objectApiName} fields={fields}
+		onsuccess={handleSuccess}></lightning-record-form>
+		HII {greetingS}
+
+		<lightning-button label='CH' onclick={chSlot}></lightning-button>
+		<br>
+		<c-slot-lwc>
+			HI calling slot LWC
+			<span slot="locale">{localName}</span>
+			<span slot="localGreeting">{localGreeting}</span>
+		</c-slot-lwc>
+
+		<!-- Load the component dynamically -->
+		<div class="containerComponent"></div>
 	</lightning-accordion>	
 </template>

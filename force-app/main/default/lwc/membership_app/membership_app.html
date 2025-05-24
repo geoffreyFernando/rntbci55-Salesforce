@@ -7,9 +7,11 @@
 					<c-membership-list></c-membership-list>
 				</lightning-tab>
 				<lightning-tab label="Tech NSight" icon-name="standard:people">
-					<c-tech-n-sight></c-tech-n-sight>
+					<c-tech-n-sight selected-item = {selectedItem}>
+					</c-tech-n-sight>
 				</lightning-tab>
             </lightning-tabset>
+						<c-child1-component onitemselected={handleItemSelected}></c-child1-component>
         </div>
     </article>
 </template>
